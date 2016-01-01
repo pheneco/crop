@@ -33,6 +33,7 @@
  *		v0.0.2.0017				Mar 02, 2015		Refactored
  *		v0.0.2.0018				Nov 25, 2015		Refactored
  *		v0.1.0.0019				Jan 01, 2016		Fixed kind:cut sizing
+ *		v0.1.0.0020				Jan 01, 2016		Fixed handle borders
  *
  */
 
@@ -158,7 +159,7 @@
 				for(var i = 0; i < 4; i++)
 					gra_crop_html 		  += '<div id="crop-div-'+this.arrow[i]+'-'+this.int+'" class="crop-div" style="cursor:crosshair;padding:0;margin:0;background:'+this.shade+';display:block;position:absolute;"></div>';
 				for(var i = !this.square && this.eh ? 0 : 4; i < 8; i++)
-					gra_crop_html		  += '<div id="crop-handle-'+this.arrow[i]+'-'+this.int+'" class="crop-handle" style="cursor:'+((i<4)?((i%2==0)?'ns':'ew'):((i%2==0)?'nw':'ne'))+'-resize;padding:0;margin:0;background:'+this.handle+';display:none;position:absolute;width:'+(this.hw-(this.hb*2))+'px;height:'+(this.hw-(this.hb*2))+'px;border-color:'+this.hbc+';border-width:'+this.hb+';border-style:'+((this.thb)?'solid':'')+';"></div>';
+					gra_crop_html		  += '<div id="crop-handle-'+this.arrow[i]+'-'+this.int+'" class="crop-handle" style="cursor:'+((i<4)?((i%2==0)?'ns':'ew'):((i%2==0)?'nw':'ne'))+'-resize;padding:0;margin:0;background:'+this.handle+';display:none;position:absolute;width:'+(this.hw-(this.hb*2))+'px;height:'+(this.hw-(this.hb*2))+'px;border-color:'+this.hbc+';border-width:'+this.hb+'px;border-style:'+((this.thb)?'solid':'')+';"></div>';
 				this.elem.innerHTML        = gra_crop_html;
 				this.cdn                   = _i('crop-div-north-'+this.int);
 				this.cdw                   = _i('crop-div-west-'+this.int);
