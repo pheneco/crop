@@ -12,14 +12,8 @@
 			else this.setAttribute(i, o[i]);
 		return this;
 	};
-	if(typeof Graphene !== 'object'){
-		var Graphene = new(function (){
-			this.cr = true;
-			this.v = 'v0.0.2.0017';
-			this.url = 'http://gra.phene.co';
-		})(), _g = Graphene;
-	}
-	_g.x = _g.crop = function(element, image, kind, o){
+	if(typeof Graphene !== 'object') _g = Graphene	= {};
+	_g.x = _g.crop	= function(element, image, kind, o){
 		var o = o || {};
 		this.int = typeof window._g_x_i == 'undefined'
 			? window._g_x_i = 0
@@ -596,5 +590,6 @@
 		["v0.1.0.0019","Jan 01, 2016","Fixed kind:cut sizing"],
 		["v0.1.0.0020","Jan 01, 2016","Fixed handle borders"],
 		["v0.1.0.0021","Jan 01, 2016","Fixed y3 == x3 for non-forced frames"],
-		["v0.1.0.0022","Jan 01, 2016","Added changelog as array"]
+		["v0.1.0.0022","Jan 01, 2016","Added changelog as array"],
+		["v0.1.0.0023","Jan 01, 2016","Refactored"]
 	];
