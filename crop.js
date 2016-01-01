@@ -34,6 +34,7 @@
  *		v0.0.2.0018				Nov 25, 2015		Refactored
  *		v0.1.0.0019				Jan 01, 2016		Fixed kind:cut sizing
  *		v0.1.0.0020				Jan 01, 2016		Fixed handle borders
+ *		v0.1.0.0021				Jan 01, 2016		Fixed y3 == x3 for non-forced frames
  *
  */
 
@@ -503,7 +504,7 @@
 				this.x2                    = this.x1 + o.frame.width;
 				this.y2                    = this.y1 + o.frame.height;
 				this.x3                    = (this.force_width)?o.frame.width:(this.force_height)?(o.frame.height/this.img.height)*this.img.width:this.img.width;
-				this.y3                    = (this.force_width)?(o.frame.width/this.img.width)*this.img.height:(this.force_height)?o.frame.height:this.img.width;
+				this.y3                    = (this.force_width)?(o.frame.width/this.img.width)*this.img.height:(this.force_height)?o.frame.height:this.img.height;
 				this.force_width           = (typeof o.force_width == 'boolean')?o.force_width:!1;
 				this.force_height          = (typeof o.force_height == 'boolean')?o.force_height:!1;
 				this.bleed                 = (typeof o.bleed == 'boolean')?o.bleed:!1;
