@@ -471,7 +471,7 @@
 				this.bleed_width           = (typeof o.bleed_width == 'number')?o.bleed_width:0;
 				this.bleed_opacity         = (typeof o.bleed_opacity == 'number')?o.bleed_opacity:0.3;
 				if(this.bleed){
-					var ghost = '<div class="crop-ghost" style="top:-'+this.bleed_width+'px;left:-'+this.bleed_width+'px;width:'+(o.frame.width+(2*this.bleed_width))+'px;height:'+(o.frame.height+(2*this.bleed_width))+'px;'+ ((typeof o.bleed_width == 'number')?'overflow:hidden;':'')+'opacity:'+this.bleed_opacity+';position:absolute;"><img class="crop-ghost-img" src="'+this.img.src+'" style="position:absolute;overflow:hidden;top:'+(this.y1 + this.bleed_width)+'px;left:'+(this.x1 + this.bleed_width)+'px;"/></div><div style="position:absolute;width:'+o.frame.width+'px;height:'+o.frame.height+'px;top:0;left:0;cursor:move;"></div>';
+					var ghost = '<div class="crop-ghost" style="top:-'+this.bleed_width+'px;left:-'+this.bleed_width+'px;width:'+(o.frame.width+(2*this.bleed_width))+'px;height:'+(o.frame.height+(2*this.bleed_width))+'px;'+ ((typeof o.bleed_width == 'number')?'overflow:hidden;':'')+'opacity:'+this.bleed_opacity+';position:absolute;"><img class="crop-ghost-img" src="'+this.img.src+'" style="margin:0;position:absolute;overflow:hidden;width:'+(this.force_width?o.frame.width+'px':this.force_height?'auto':this.img.width+'px')+';height:'+(this.force_height?o.frame.height+'px':this.force_width?'auto':this.img.height+'px')+';top:'+(this.y1 + this.bleed_width)+'px;left:'+(this.x1 + this.bleed_width)+'px;"/></div><div style="position:absolute;width:'+o.frame.width+'px;height:'+o.frame.height+'px;top:0;left:0;cursor:move;"></div>';
 					this.elem.insertAdjacentHTML('afterbegin', ghost);
 					this.ghost = this.elem.getElementsByClassName('crop-ghost-img')[0];
 				} else {
@@ -591,5 +591,6 @@
 		["v0.1.0.0020","Jan 01, 2016","Fixed handle borders"],
 		["v0.1.0.0021","Jan 01, 2016","Fixed y3 == x3 for non-forced frames"],
 		["v0.1.0.0022","Jan 01, 2016","Added changelog as array"],
-		["v0.1.0.0023","Jan 01, 2016","Refactored"]
+		["v0.1.0.0023","Jan 01, 2016","Refactored"],
+		["v0.1.0.0024","Jan 01, 2016","Fixed ghost styling."]
 	];
