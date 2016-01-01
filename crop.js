@@ -2,40 +2,6 @@
  *	Graphene Image Cropper
  *	Written By Trevor J Hoglund
  *	Jan 01, 2016
- *
- *	Version:				Date:				Description:
- *		v0.0.0.0001				Jul 08, 2014		Scripts copied over from Graphene and adjusted to fit external requirements.
- *		v0.0.0.0002				Jul 08, 2014		Added variables to allow omnidirectional cropping for kind:cut.
- *		v0.0.0.0003				Jul 08, 2014		Added resizing with handles for kind:cut.
- *		v0.0.0.0004				Jul 08, 2014		Fixed y1 and x1 variables being able to pass y2 and x2 respectively.
- *		v0.0.0.0005				Jul 08, 2014		Allowed y1 and x1 to pass y2 and x2 respectively, and switch positions while resizing for kind:cut.
- *													Changed tools divs' cursor to resizing while resizing for kind:cut.
- *		v0.0.0.0006				Jul 09, 2014		Fixed resizing while square:true moving opposing corners for kind:cut.
- *													Changed square:true to use smaller width rather than larger for kind:cut.
- *		v0.0.0.0007				Jul 09, 2014		Fixed cutting while square:true moving opposing corners for kind:cut.
- *													Fixed y2 and x2 variables being able to be lass than y1 and x1 respectively.
- *		v0.0.1.0008				Jul 09, 2014		Added options for preset values for kind:cut.
- *		v0.0.1.0009				Jul 09, 2014		Added getValues() function for kind:cut.
- *													Added crop, set, resize and move events for kind:cut.
- *		v0.0.1.0010				Jul 09, 2014		Added extra_handles option to enable north, west, south and east resize handles for kind:cut.
- *		v0.0.1.0011				Jul 09, 2014		Fixed error when checking mousedown while extra_handles:!1 for kind:cut.
- *		v0.0.2.0012				Jul 10, 2014		Added scripts to build the cropper with minimal effort by the client (do not have to set width and height) for kind:cut.
- *													Added image as a required input.
- *		v0.0.2.0013				Jul 10, 2014		Added kind:frame.
- *													Added option bleed to show full image as ghost for kind:frame.
- *		v0.0.2.0014				Jul 11, 2014		Fixed style of image backgrounds as shade (using background positions) for kind:cut.
- *		v0.0.2.0015				Jul 14, 2014		Added force_width and force_height o for kind:frame.
- *													Added getValues() function for kind:frame.
- *													Added move and moving events for kind:frame.
- *													Added cropTo() function for kind:cut.
- *													Fixed some CSS errors.
- *		v0.0.2.0016				Aug 27, 2014		Added stop() for kind:cut.
- *		v0.0.2.0017				Mar 02, 2015		Refactored
- *		v0.0.2.0018				Nov 25, 2015		Refactored
- *		v0.1.0.0019				Jan 01, 2016		Fixed kind:cut sizing
- *		v0.1.0.0020				Jan 01, 2016		Fixed handle borders
- *		v0.1.0.0021				Jan 01, 2016		Fixed y3 == x3 for non-forced frames
- *
  */
 
 	function _i(i){return document.getElementById(i);}
@@ -608,3 +574,27 @@
 			}
 		}
 	};
+	_g.x.changes = [
+		["v0.0.0.0001","Jul 08, 2014","Scripts copied over from Graphene and adjusted to fit external requirements."],
+		["v0.0.0.0002","Jul 08, 2014","Added variables to allow omnidirectional cropping for kind:cut."],
+		["v0.0.0.0003","Jul 08, 2014","Added resizing with handles for kind:cut."],
+		["v0.0.0.0004","Jul 08, 2014","Fixed y1 and x1 variables being able to pass y2 and x2 respectively."],
+		["v0.0.0.0005","Jul 08, 2014","Allowed y1 and x1 to pass y2 and x2 respectively, and switch positions while resizing for kind:cut. Changed tools divs' cursor to resizing while resizing for kind:cut."],
+		["v0.0.0.0006","Jul 09, 2014","Fixed resizing while square:true moving opposing corners for kind:cut. Changed square:true to use smaller width rather than larger for kind:cut."],
+		["v0.0.0.0007","Jul 09, 2014","Fixed cutting while square:true moving opposing corners for kind:cut. Fixed y2 and x2 variables being able to be lass than y1 and x1 respectively."],
+		["v0.0.1.0008","Jul 09, 2014","Added options for preset values for kind:cut."],
+		["v0.0.1.0009","Jul 09, 2014","Added getValues() function for kind:cut. Added crop, set, resize and move events for kind:cut."],
+		["v0.0.1.0010","Jul 09, 2014","Added extra_handles option to enable north, west, south and east resize handles for kind:cut."],
+		["v0.0.1.0011","Jul 09, 2014","Fixed error when checking mousedown while extra_handles:!1 for kind:cut."],
+		["v0.0.2.0012","Jul 10, 2014","Added scripts to build the cropper with minimal effort by the client (do not have to set width and height) for kind:cut. Added image as a required input."],
+		["v0.0.2.0013","Jul 10, 2014","Added kind:frame. Added option bleed to show full image as ghost for kind:frame."],
+		["v0.0.2.0014","Jul 11, 2014","Fixed style of image backgrounds as shade (using background positions) for kind:cut."],
+		["v0.0.2.0015","Jul 14, 2014","Added force_width and force_height o for kind:frame. Added getValues() function for kind:frame. Added move and moving events for kind:frame. Added cropTo() function for kind:cut. Fixed some CSS errors."],
+		["v0.0.2.0016","Aug 27, 2014","Added stop() for kind:cut."],
+		["v0.0.2.0017","Mar 02, 2015","Refactored"],
+		["v0.0.2.0018","Nov 25, 2015","Refactored"],
+		["v0.1.0.0019","Jan 01, 2016","Fixed kind:cut sizing"],
+		["v0.1.0.0020","Jan 01, 2016","Fixed handle borders"],
+		["v0.1.0.0021","Jan 01, 2016","Fixed y3 == x3 for non-forced frames"],
+		["v0.1.0.0022","Jan 01, 2016","Added changelog as array"]
+	];
