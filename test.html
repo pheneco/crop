@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>crop</title>
+	<link rel="stylesheet" href="http://phene.co/style.css">
+	<link rel="shortcut icon" type="image/png" href="http://phene.co/assets/fav.png"/>
+	<script	src="crop.js"></script>
+</head>
+<body>
+	<div class="content">
+		<b><a href="http://scripts.phene.co/crop" id="scripts">crop tool</a></b><hr>
+		<p>
+			_g.crop is a javascript script built to render an image cropping tool and return the necessary values for a server or image library to create a cropped version of the image.
+			the script was originally designed for <a href="http://gra.phene.co">Graphene</a> and therefore uses the conventions for related _g scripts.
+		</p>
+		<br><br>
+		<br><br>
+		<div id="start">
+			<b><a href="#start">getting started</a></b><hr>
+			<p>
+				the first step in setting up the crop tool is to include the library in the html file.
+				<a href="http://scripts.phene.co/crop/0.0.2.0017">the source file can be downloaded here and put on a cdn</a>
+				or use the following script tag to include it directly from phene.co:
+			</p>
+			<pre><code class="language-markup">&lt;script src="http://scripts.phene.co/crop/0.0.2.0017"&gt;&lt;/script&gt;</code></pre>
+			<p>
+				the second step in setting up the crop tool is creating an element for the tool to be housed in.
+				whatever element you pass to the tool will be treated as the base of the tool, being filled with all the necessary elements to render the interface.
+				here's a basic example:
+			</p>
+			<pre><code class="language-markup">&lt;div id="crop"&gt;&lt;/div&gt;</code></pre>
+			<p>
+				_g.crop is a class included in the <code>Graphene</code> or <code>_g</code> object.
+				it can be accessed with either <code>_g.crop</code> or <code>_g.x</code>.
+				in all instances <code>_g</code> can be replaced with <code>Graphene</code> for improved readability.
+				calling the script is done in the following form:
+			</p>
+			<pre><code class="language-javascript">var element	= document.getElementById('crop'),
+	image	= "http://example.com/image.png",
+	kind	= 'cut',
+	options	= {},
+	crop	= new _g.crop(element, image, kind, options);</code></pre>
+			<p>
+				currently, there are two kinds of crop tools able to be rendered: cut and frame.
+				cut allows the user to specify a region of the image to be cropped to.
+				here is an example of the cut kind:
+			</p>
+			<div id="example-1" style="width:500px;margin-left:-100px;margin-bottom:10px;"></div>
+			<script>
+				var element	= document.getElementById('example-1'),
+					image	= 'http://img.phene.co/hycycxluuuv4hmt1cdxpwpkb5ngmivvr/posted.jpg',
+					kind	= 'cut',
+					options	= {},
+					ex1		= new _g.x(element, image, kind, options);
+			</script>
+			<p>
+				frame defines a frame to crop down to and the user moves the image around within it.
+				when creating a frame, you must define the size of the frame:
+			</p>
+			<pre><code class="language-javascript">var options	= {
+	frame		: {
+		width	: 500,
+		height	: 500
+	}
+}</code></pre>
+			<p>
+				it is recommended that either the <code>force_width</code> or <code>force_height</code> options be used with frames.
+				<code>force_width</code> resizes the image to be with width of the set frame, only allowing the user to adjust the image vertically.
+				<code>force_height</code> does the same with height, only allowing horizontal movement.
+				here is an example of <code>force_width</code>:
+			</p>
+			<div id="example-2" style="width:500px;margin-left:-100px;margin-bottom:10px;"></div>
+			<script>
+				var element	= document.getElementById('example-2'),
+					image	= 'http://img.phene.co/vc83hl3ex2xy2d8hjlwq8ir8aqv3f67r/posted.jpg',
+					kind	= 'frame',
+					options	= {
+						force_width	:true,
+						frame		: {
+							width	: 500,
+							height	: 300,
+						}
+					},
+					ex2     = new _g.x(element, image, kind, options);
+			</script>
+		</div>
+		<br><br>
+		<br><br>
+		<div id="cut">
+			<b><a href="#cut">the cut kind</a></b><hr>
+			<p>
+				the cut kind was originally developed for use as a way to crop images for user avatars.
+				as such, many of its options are centered around usability in this situation.
+				they are not limited to this, however.
+				here is a list of all the built-in options for the cut kind:
+			</p>
+			<table>
+				<thead>
+					<td>option:</td>
+					<td>value:</td>
+					<td>description:</td>
+				</thead>
+				<tr>
+					<td>extra_handles</td>
+					<td>boolean</td>
+					<td>toggle cardinal handles (no effect when square:true)</td>
+				</tr>
+				<tr>
+					<td>handle_width</td>
+					<td>number</td>
+					<td>width of resize handles</td>
+				</tr>
+				<tr>
+					<td>handle_color</td>
+					<td>string</td>
+					<td>color of resize handles</td>
+				</tr>
+				<tr>
+					<td>handle_border</td>
+					<td>boolean</td>
+					<td>toggles borders on resize handles</td>
+				</tr>
+				<tr>
+					<td>handle_border_width</td>
+					<td>number</td>
+					<td>width of borders on resize handles</td>
+				</tr>
+				<tr>
+					<td>handle_border_color</td>
+					<td>string</td>
+					<td>color of borders on resize handles</td>
+				</tr>
+				<tr>
+					<td>minimum</td>
+					<td>number</td>
+					<td>minimum width and/or height of crop</td>
+				</tr>
+				<tr>
+					<td>shade</td>
+					<td>string</td>
+					<td>color of unselected area</td>
+				</tr>
+				<tr>
+					<td>square</td>
+					<td>boolean</td>
+					<td>toggles square selection</td>
+				</tr>
+				<tr>
+					<td>preset</td>
+					<td>object</td>
+					<td>an object containing preset values {left,top,width,height} to crop when the tool is loaded</td>
+				</tr>
+			</table>
+			<p>
+				the majority of the options are regarding the style of the tool.
+				this is to provide the most customizability possible to allow the crop tool to fit in seamlessly with any desgin.
+				the size of the cut tool will be that of the loaded image by default, but this can be adjusted with css on the target element (this must be done in the form of <code>XXpx</code> for the script to pick up on it).
+				here is an example of creating a square crop utilizing several of the available options:
+			</p>
+			<pre><code class="language-javascript">var options	= {
+	handle_color	: "rgba(0,0,0,0)",
+	handle_border	: true,
+	handle_border_width : 1,
+	handle_border_color : "#555",
+	shade			: "rgba(255,255,255,0.7)",
+	square			: true,
+	preset			: {
+		left		: 200,
+		width		: 110,
+		top			: 110,
+		height		: 110
+	}
+}</code></pre>
+			<p>
+				these options will produce a tool like this one:
+			</p>
+			<div id="example-3" style="width:500px;margin-left:-100px;margin-bottom:10px;"></div>
+			<script>
+				var element	= document.getElementById('example-3'),
+					image	= 'http://40.media.tumblr.com/f0dfc355cbb6e189648c0de3dd42a8ee/tumblr_np53x6XrSi1utn57jo1_1280.jpg',
+					kind	= 'cut',
+					options	= {
+						handle_color	: "rgba(0,0,0,0)",
+						handle_border	: true,
+						handle_border_width : 1,
+						handle_border_color : "#555",
+						shade			: "rgba(255,255,255,0.7)",
+						square			: true,
+						preset			: {
+							left		: 200,
+							width		: 110,
+							top			: 110,
+							height		: 110
+						}
+					},
+					ex3		= new _g.x(element, image, kind, options);
+			</script>
+		</div>
+		<br><br>
+		<div id="cut-returns">
+			<b><a href="#cut-returns">returns and values of the cut kind</a></b><br>
+			<p>
+				the goal of this cropping script is not to create new cropped version of images.
+				it is a light-weight script whose main purpose is to render an interface, however, the developer can easily access the properties of the cropping.
+				how the data is used is purely left up to the developer.
+				there are three ways to access the information of the crop tool: the <code>getValues()</code> function, directly reading the object, or with events (which will be covered later).
+			</p>
+			<p>
+				it is recommended that the <code>getValues()</code> function be used to access the tool's data.
+				there are various reasons for this, most importantly being the ease of access.
+				here is an example of the return from this function:
+			</p>
+			<pre><code class="language-javascript">crop.getValues() == {
+	left	: 200,
+	width	: 110,
+	top		: 110,
+	height	: 110
+}</code></pre>
+			<p>
+				the crop tool itself can be accessed to get these values.
+				this is tyically not recommended as it may mislead the developer to believe the tool can be altered by altering this object.
+				nontheless, the same object returned by <code>getValues()</code> can be found by the <code>values</code> property of the tool's object.
+				these are updated differently and may at some points return differing values, however, this should not be the case when the tool is in a standby state.
+			</p>
+		</div>
+		<br><br>
+		<div id="cut-functions">
+			<b><a href="#cut-functions">functions of the cut kind</a></b><br>
+			<p>
+				when the tool is rendered, several event listeners are added to the page that assume the existence of the tool.
+				if the developer chooses to remove the tool without reloading the page, this would cause errors to be thrown constantly which could lag the web page.
+				as such, there is a built in function to stop these listeners:
+			</p>
+			<pre><code class="language-javascript">crop.stop()</code></pre>
+			<p>
+				the cut kind was also written to be especially useful in instances of active content, the <code>stop()</code> being the first example of this.
+				the other significant function that shows this is the <code>cropTo()</code> function, which allows the developer to manipulate the tool without reloading it.
+				this function will return false if the argument is not a single object of values such as those that <code>getValues()</code> returns.
+			</p>
+			<pre><code class="language-javascript">crop.cropTo({
+	left	: 200,
+	width	: 110,
+	top		: 110,
+	height	: 110
+});</code></pre>
+		</div>
+		<br><br>
+		<div id="cut-events">
+			<b><a href="#cut-events">events of the cut kind</a></b><br>
+			<p>
+				events are fired using the custom event api in javascript, and therefore may not be compatible with internet explorer (though edge should be fine).
+				they are fired on the crop tool's element, so listeners should be added to that.
+				here is a list of these events:
+			</p>
+			<table>
+				<thead>
+					<td>event:</td>
+					<td>fired when:</td>
+				</thead>
+				<tr>
+					<td>crop</td>
+					<td>a crop action is finished</td>
+				</tr>
+				<tr>
+					<td>set</td>
+					<td>a new crop selection is set</td>
+				</tr>
+				<tr>
+					<td>resize</td>
+					<td>a crop selection is resized</td>
+				</tr>
+				<tr>
+					<td>move</td>
+					<td>a crop selection is moved</td>
+				</tr>
+			</table>
+			<p>
+				each event returns the same generic information, which can be gathered as data from the tool.
+				along with a reference to the tool object, the left, width, top, and height values are returned for convenience.
+				an example usage of these events would be to have one tool crop an image in the same way as another tool does.
+				this could be done as such:
+			</p>
+			<pre><code class="language-javascript">crop1.elem.addEventListener('crop',function(e){
+	crop2.cropTo(e.detail);
+});
+crop2.elem.addEventListener('crop',function(e){
+	crop1.cropTo(e.detail);
+});</code></pre>
+			<p>
+				assuming <code>crop1</code> and <code>crop1</code> are both crop tools, this should turn out like this:
+			</p>
+			<div style="width:500px;margin-left:-100px;margin-bottom:10px;position:relative;">
+				<div id="example-5" style="width:245px;float:left;"></div>
+				<div id="example-6" style="width:245px;margin-left:10px;float:left;"></div>
+				<div style="clear:both"></div>
+				<script>
+					var element	= document.getElementById('example-5'),
+						image	= 'http://40.media.tumblr.com/e167ca4ea8e494d7a0fa481057d7df36/tumblr_np54jh9lUp1utn57jo1_1280.jpg',
+						kind	= 'cut',
+						options	= {},
+						ex5		= new _g.x(element, image, kind, options);
+					var element	= document.getElementById('example-6'),
+						ex6		= new _g.x(element, image, kind, options);
+					ex5.elem.addEventListener('crop',function(e){
+						ex6.cropTo(e.detail);
+					});
+					ex6.elem.addEventListener('crop',function(e){
+						ex5.cropTo(e.detail);
+					});
+				</script>
+			</div>
+			<p>
+				there is currently no event that is fired during the movement of cutting of a crop.
+				this may be added in the future, but may be costly when it comes to efficiency.
+			</p>
+		</div>
+		<br><br>
+		<br><br>
+		<div id="frame">
+			<b><a href="#frame">the frame kind</a></b><hr>
+			<p>
+				the frame kind was developed for editing cover photos, something for which the user would be given an already defined frame that the image would be moved around within.
+				as the focus of the script was the cut kind originaly, there are not as many options available for the frame as the cut kind.
+			</p>
+			<table>
+				<thead>
+					<td>option:</td>
+					<td>value:</td>
+					<td>description:</td>
+				</thead>
+				<tr>
+					<td>frame</td>
+					<td>object</td>
+					<td>the size of the frame to crop the image in; {width,height}</td>
+				</tr>
+				<tr>
+					<td>bleed</td>
+					<td>boolean</td>
+					<td>toggles showing bled image</td>
+				</tr>
+				<tr>
+					<td>bleed_width</td>
+					<td>number</td>
+					<td>max width of bleed (infinite when not set)</td>
+				</tr>
+				<tr>
+					<td>bleed_opacity</td>
+					<td>number</td>
+					<td>opacity of bled image</td>
+				</tr>
+				<tr>
+					<td>force_width</td>
+					<td>boolean</td>
+					<td>resizes the image to the width of the frame</td>
+				</tr>
+				<tr>
+					<td>force_height</td>
+					<td>boolean</td>
+					<td>resizes the image to the height of the frame; overridden if force_width is true</td>
+				</tr>
+			</table>
+			<p>
+				as there are no handles or shades to render, there are significantly fewer design options for the frame kind.
+				the bleed option, however, is considered a design option.
+				this option toggles the visibility of a bled image, that is, being able to see more of the image than what is within the frame.
+				here are some sample options for the frame kind:
+			</p>
+			<pre><code class="language-javascript">var options	= {
+	frame		: {
+		width	: 300,
+		height	: 300
+	},
+	bleed		: true,
+	bleed_width	: 100
+}</code></pre>
+			<p>
+				these options would produce a tool such as this:
+			</p>
+			<div id="example-4" style="margin:110px 0;"></div>
+			<script>
+				var element	= document.getElementById('example-4'),
+					image	= 'http://40.media.tumblr.com/d09cb03037640d0c55913bde7cb73f2e/tumblr_nttlagHok81utn57jo1_1280.jpg',
+					kind	= 'frame',
+					options	= {
+						frame		: {
+							width	: 300,
+							height	: 300
+						},
+						bleed		: true,
+						bleed_width	: 100
+					},
+					ex4		= new _g.x(element, image, kind, options);
+			</script>
+		</div>
+		<br><br>
+		<br><br>
+		<a href="//scripts.phene.co">scripts</a> . <a href="//phene.co">phene.co</a>
+	</div>
+</body>
+</html>

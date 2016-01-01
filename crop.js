@@ -1,63 +1,61 @@
 /*
  *	Graphene Image Cropper
- *	Written By Trewbot
- *	Nov 24, 2015
+ *	Written By Trevor J Hoglund
+ *	Jan 01, 2016
  *
  *	Version:				Date:				Description:
- *		a0.0.0.0001				Jul 08, 2014		Scripts copied over from Graphene and adjusted to fit external requirements.
- *		a0.0.0.0002				Jul 08, 2014		Added variables to allow omnidirectional cropping for kind:cut.
- *		a0.0.0.0003				Jul 08, 2014		Added resizing with handles for kind:cut.
- *		a0.0.0.0004				Jul 08, 2014		Fixed y1 and x1 variables being able to pass y2 and x2 respectively.
- *		a0.0.0.0005				Jul 08, 2014		Allowed y1 and x1 to pass y2 and x2 respectively, and switch positions while resizing for kind:cut.
+ *		v0.0.0.0001				Jul 08, 2014		Scripts copied over from Graphene and adjusted to fit external requirements.
+ *		v0.0.0.0002				Jul 08, 2014		Added variables to allow omnidirectional cropping for kind:cut.
+ *		v0.0.0.0003				Jul 08, 2014		Added resizing with handles for kind:cut.
+ *		v0.0.0.0004				Jul 08, 2014		Fixed y1 and x1 variables being able to pass y2 and x2 respectively.
+ *		v0.0.0.0005				Jul 08, 2014		Allowed y1 and x1 to pass y2 and x2 respectively, and switch positions while resizing for kind:cut.
  *													Changed tools divs' cursor to resizing while resizing for kind:cut.
- *		a0.0.0.0006				Jul 09, 2014		Fixed resizing while square:true moving opposing corners for kind:cut.
+ *		v0.0.0.0006				Jul 09, 2014		Fixed resizing while square:true moving opposing corners for kind:cut.
  *													Changed square:true to use smaller width rather than larger for kind:cut.
- *		a0.0.0.0007				Jul 09, 2014		Fixed cutting while square:true moving opposing corners for kind:cut.
+ *		v0.0.0.0007				Jul 09, 2014		Fixed cutting while square:true moving opposing corners for kind:cut.
  *													Fixed y2 and x2 variables being able to be lass than y1 and x1 respectively.
- *		a0.0.1.0008				Jul 09, 2014		Added options for preset values for kind:cut.
- *		a0.0.1.0009				Jul 09, 2014		Added getValues() function for kind:cut.
+ *		v0.0.1.0008				Jul 09, 2014		Added options for preset values for kind:cut.
+ *		v0.0.1.0009				Jul 09, 2014		Added getValues() function for kind:cut.
  *													Added crop, set, resize and move events for kind:cut.
- *		a0.0.1.0010				Jul 09, 2014		Added extra_handles option to enable north, west, south and east resize handles for kind:cut.
- *		a0.0.1.0011				Jul 09, 2014		Fixed error when checking mousedown while extra_handles:!1 for kind:cut.
- *		a0.0.2.0012				Jul 10, 2014		Added scripts to build the cropper with minimal effort by the client (do not have to set width and height) for kind:cut.
+ *		v0.0.1.0010				Jul 09, 2014		Added extra_handles option to enable north, west, south and east resize handles for kind:cut.
+ *		v0.0.1.0011				Jul 09, 2014		Fixed error when checking mousedown while extra_handles:!1 for kind:cut.
+ *		v0.0.2.0012				Jul 10, 2014		Added scripts to build the cropper with minimal effort by the client (do not have to set width and height) for kind:cut.
  *													Added image as a required input.
- *		a0.0.2.0013				Jul 10, 2014		Added kind:frame.
+ *		v0.0.2.0013				Jul 10, 2014		Added kind:frame.
  *													Added option bleed to show full image as ghost for kind:frame.
- *		a0.0.2.0014				Jul 11, 2014		Fixed style of image backgrounds as shade (using background positions) for kind:cut.
- *		a0.0.2.0015				Jul 14, 2014		Added force_width and force_height o for kind:frame.
+ *		v0.0.2.0014				Jul 11, 2014		Fixed style of image backgrounds as shade (using background positions) for kind:cut.
+ *		v0.0.2.0015				Jul 14, 2014		Added force_width and force_height o for kind:frame.
  *													Added getValues() function for kind:frame.
  *													Added move and moving events for kind:frame.
  *													Added cropTo() function for kind:cut.
  *													Fixed some CSS errors.
- *		a0.0.2.0016				Aug 27, 2014		Added stop() for kind:cut.
- *		a0.0.2.0017				Mar 02, 2015		Refactored
- *		a0.0.2.0018				Nov 25, 2015		Refactored
+ *		v0.0.2.0016				Aug 27, 2014		Added stop() for kind:cut.
+ *		v0.0.2.0017				Mar 02, 2015		Refactored
+ *		v0.0.2.0018				Nov 25, 2015		Refactored
+ *		v0.1.0.0019				Jan 01, 2016		Fixed kind:cut sizing
  *
  */
 
 	function _i(i){return document.getElementById(i);}
-	Element.prototype.set = function(o) {
+	Element.prototype.set = function(o){
 		for(var i in o)
 			if(~['styles','style'].indexOf(i) && typeof o[i] === 'object') for(var p in o[i]) this.style[p] = o[i][p];
 			else if(i === 'html') this.innerHTML = o[i];
 			else this.setAttribute(i, o[i]);
 		return this;
 	};
-	if(typeof Graphene !== 'object') {
-		var Graphene = new(function () {
+	if(typeof Graphene !== 'object'){
+		var Graphene = new(function (){
 			this.cr = true;
 			this.v = 'v0.0.2.0017';
 			this.url = 'http://gra.phene.co';
 		})(), _g = Graphene;
 	}
-	_g.x = _g.crop = function(element, image, kind, o) {
-		
+	_g.x = _g.crop = function(element, image, kind, o){
 		var o = o || {};
-		
 		this.int = typeof window._g_x_i == 'undefined'
 			? window._g_x_i = 0
 			: ++window._g_x_i;
-		
 		if(typeof image !== 'string') return !1;
 		this.elem     = element;
 		this.kind     = kind;
@@ -66,18 +64,28 @@
 		this.x1       = this.x2 = this.x3 = this.x4 = this.x5 = 0;
 		this.rendered = !1;
 		if(!this.thb) this.hb = 0;
-		
-		this.load	= function() {
+		this.load	= function(){
 			this.elem.set({
 				style	: {
 					width	: kind == 'cut'
-						? this.img.width + 'px'
+						? this.elem.style.width
+							? this.elem.style.width
+							: this.elem.style.height
+								? (+this.elem.style.height.split("px")[0] / this.img.height) * this.img.width + "px"
+								: this.img.width + 'px'
 						: o.frame.width + 'px',
 					height	: kind == 'cut'
-						? this.img.height + 'px'
+						? this.elem.style.height
+							? this.elem.style.height
+							: this.elem.style.width
+								? (+this.elem.style.width.split("px")[0] / this.img.width) * this.img.height + "px"
+								: this.img.height + 'px'
 						: o.frame.height + 'px',
 					position	: 'relative',
 					background	: 'url(' + this.img.src + ')',
+					backgroundSize : kind == 'cut'
+						? 'contain'
+						: '',
 					cursor	: kind == 'cut'
 						? 'crosshair'
 						: 'move',
@@ -86,9 +94,8 @@
 			this.init();
 		}
 		this.img.onload = this.load.bind(this);
-		
-		this.init   = function() {
-			if(kind == 'cut') {
+		this.init   = function(){
+			if(kind == 'cut'){
 				this.eh		= typeof o.extra_handles == 'boolean'
 								? o.extra_handles
 								: !1;
@@ -157,7 +164,7 @@
 				this.cdw                   = _i('crop-div-west-'+this.int);
 				this.cds                   = _i('crop-div-south-'+this.int);
 				this.cde                   = _i('crop-div-east-'+this.int);
-				if(!this.square && this.eh) {
+				if(!this.square && this.eh){
 					this.chn               = _i('crop-handle-north-'+this.int);
 					this.chw               = _i('crop-handle-west-'+this.int);
 					this.chs               = _i('crop-handle-south-'+this.int);
@@ -167,7 +174,7 @@
 				this.chne                  = _i('crop-handle-northeast-'+this.int);
 				this.chsw                  = _i('crop-handle-southwest-'+this.int);
 				this.chse                  = _i('crop-handle-southeast-'+this.int);
-				this.getValues             = function() {
+				this.getValues             = function(){
 					return {
 						left               : this.x1,
 						width              : this.x2 - this.x1,
@@ -175,7 +182,7 @@
 						height             : this.y2 - this.y1
 					};
 				}
-				this.sendEvent             = function(kind) {
+				this.sendEvent             = function(kind){
 					var generic            = {
 						cropper            : this.int,
 						left               : this.x1,
@@ -183,29 +190,29 @@
 						top                : this.y1,
 						height             : this.y2 - this.y1
 					}
-					if(kind=='crop' || kind=='set' || kind=='resize' || kind=='move') {
+					if(kind=='crop' || kind=='set' || kind=='resize' || kind=='move'){
 						var event          = new CustomEvent(kind, {
 							detail         : generic
 						});
 						window.dispatchEvent(event);
 					}
 				}
-				this.render                = function() {
-					if(this.y2 - this.y1 < this.min) { this.y2 = this.y1 + this.min; }
-					if(this.x2 - this.x1 < this.min) { this.x2 = this.x1 + this.min; }
+				this.render                = function(){
+					if(this.y2 - this.y1 < this.min){ this.y2 = this.y1 + this.min; }
+					if(this.x2 - this.x1 < this.min){ this.x2 = this.x1 + this.min; }
 
-					if(this.square) {if(this.y2 - this.y1 < this.x2 - this.x1) {this.squareX();} else {this.squareY();}}
+					if(this.square){if(this.y2 - this.y1 < this.x2 - this.x1){this.squareX();} else {this.squareY();}}
 					
-					if(this.x2 > this.x3) { this.x2 = this.x3; this.squareY();}
-					if(this.y2 > this.y3) { this.y2 = this.y3; this.squareX();}
-					if(this.x1 > this.x3) { this.x1 = this.x3; this.squareY();}
-					if(this.y1 > this.y3) { this.y1 = this.y3; this.squareX();}
-					if(this.x1 < 0)       { this.x1 = 0;       this.squareY();}
-					if(this.y1 < 0)       { this.y1 = 0;       this.squareX();}
-					if(this.x2 < 0)       { this.x2 = 0;       this.squareY();}
-					if(this.y2 < 0)       { this.y2 = 0;       this.squareX();}
-					if(this.x2 < this.x1) { this.x2 = this.x1; this.squareY();}
-					if(this.y2 < this.y1) { this.y2 = this.y1; this.squareX();}
+					if(this.x2 > this.x3){ this.x2 = this.x3; this.squareY();}
+					if(this.y2 > this.y3){ this.y2 = this.y3; this.squareX();}
+					if(this.x1 > this.x3){ this.x1 = this.x3; this.squareY();}
+					if(this.y1 > this.y3){ this.y1 = this.y3; this.squareX();}
+					if(this.x1 < 0)      { this.x1 = 0;       this.squareY();}
+					if(this.y1 < 0)      { this.y1 = 0;       this.squareX();}
+					if(this.x2 < 0)      { this.x2 = 0;       this.squareY();}
+					if(this.y2 < 0)      { this.y2 = 0;       this.squareX();}
+					if(this.x2 < this.x1){ this.x2 = this.x1; this.squareY();}
+					if(this.y2 < this.y1){ this.y2 = this.y1; this.squareX();}
 					
 					
 					this.rendered          = !0;
@@ -280,8 +287,8 @@
 					this.values.height     = this.y2 - this.y1;
 					this.values.width      = this.x2 - this.x1;
 				}
-				this.mouseup               = function(e) {
-					if(this.cutting || this.moving || this.resize || this.linear) {
+				this.mouseup               = function(e){
+					if(this.cutting || this.moving || this.resize || this.linear){
 						this.elem.style.cursor = 'move';
 						this.cdn.style.cursor  = 
 						this.cde.style.cursor  = 
@@ -294,20 +301,20 @@
 					if(this.moving) this.sendEvent('move');
 					this.cutting           = this.moving = this.linear = this.resize = this.rsz_ns = this.rsz_ew = this.rsz_nw = this.rsz_ne = this.rsz_sw = this.rsz_se = !1;
 				}
-				this.mousedown             = function(e) {
+				this.mousedown             = function(e){
 					var tool = this.elem.getBoundingClientRect(),
 						chnw = this.chnw.getBoundingClientRect(),
 						chne = this.chne.getBoundingClientRect(),
 						chsw = this.chsw.getBoundingClientRect(),
 						chse = this.chse.getBoundingClientRect();
-					if(this.eh) {
+					if(this.eh){
 						var
 						chn  = this.chn.getBoundingClientRect(),
 						chw  = this.chw.getBoundingClientRect(),
 						chs  = this.chs.getBoundingClientRect(),
 						che  = this.che.getBoundingClientRect();
 					}
-					if(this.checkloc(e, chnw)) {
+					if(this.checkloc(e, chnw)){
 							e.preventDefault();
 							this.x4        = e.clientX - chnw.left;
 							this.y4        = e.clientY - chnw.top;
@@ -315,7 +322,7 @@
 							this.y5        = this.y2;
 							this.resize    = !0;
 							this.rsz_nw    = !0;
-					} else if(this.checkloc(e, chne)) {
+					} else if(this.checkloc(e, chne)){
 							e.preventDefault();
 							this.x4        = e.clientX - chne.left;
 							this.y4        = e.clientY - chne.top;
@@ -323,7 +330,7 @@
 							this.y5        = this.y2;
 							this.resize    = !0;
 							this.rsz_ne    = !0;
-					} else if(this.checkloc(e, chsw)) {
+					} else if(this.checkloc(e, chsw)){
 							e.preventDefault();
 							this.x4        = e.clientX - chsw.left;
 							this.y4        = e.clientY - chsw.top;
@@ -331,7 +338,7 @@
 							this.y5        = this.y1;
 							this.resize    = !0;
 							this.rsz_sw    = !0;
-					} else if(this.checkloc(e, chse)) {
+					} else if(this.checkloc(e, chse)){
 							e.preventDefault();
 							this.x4        = e.clientX - chse.left;
 							this.y4        = e.clientY - chse.top;
@@ -339,31 +346,31 @@
 							this.y5        = this.y1;
 							this.resize    = !0;
 							this.rsz_se    = !0;
-					} else if(this.eh && this.checkloc(e, chn)) {
+					} else if(this.eh && this.checkloc(e, chn)){
 							e.preventDefault();
 							this.y4        = e.clientY - chn.top;
 							this.y5        = this.y2;
 							this.linear    = !0;
 							this.rsz_ns    = !0;
-					} else if(this.eh && this.checkloc(e, chw)) {
+					} else if(this.eh && this.checkloc(e, chw)){
 							e.preventDefault();
 							this.x4        = e.clientX - chw.left;
 							this.x5        = this.x2;
 							this.linear    = !0;
 							this.rsz_ew    = !0;
-					} else if(this.eh && this.checkloc(e, chs)) {
+					} else if(this.eh && this.checkloc(e, chs)){
 							e.preventDefault();
 							this.y4        = e.clientY - chs.top;
 							this.y5        = this.y1;
 							this.linear    = !0;
 							this.rsz_ns    = !0;
-					} else if(this.eh && this.checkloc(e, che)) {
+					} else if(this.eh && this.checkloc(e, che)){
 							e.preventDefault();
 							this.x4        = e.clientX - che.left;
 							this.x5        = this.x1;
 							this.linear    = !0;
 							this.rsz_ew    = !0;
-					} else if(this.checkloc(e, tool)) {
+					} else if(this.checkloc(e, tool)){
 						e.preventDefault();
 						if(e.clientX > tool.left + this.x1
 							&& e.clientY > tool.top + this.y1
@@ -387,15 +394,15 @@
 						}
 					}
 				}
-				this.checkloc       = function(e, r) {
+				this.checkloc       = function(e, r){
 					var t,
 						y = e.pageY - ((t = document.documentElement.scrollTop)?t:scrollY),
 						x = e.pageX - ((t = document.documentElement.scrollLeft)?t:scrollX);
 					return (r && (x > r.left && y > r.top && x < r.right && y < r.bottom));
 				}
-				this.mousemove      = function(e) {
+				this.mousemove      = function(e){
 					var tool        = this.elem.getBoundingClientRect();
-					if(this.cutting) {
+					if(this.cutting){
 						var t,
 							y   = e.pageY - ((t = document.documentElement.scrollTop)?t:scrollY),
 							x   = e.pageX - ((t = document.documentElement.scrollLeft)?t:scrollX),
@@ -406,7 +413,7 @@
 						this.y1 =  b?this.y4:this.y5,
 						this.y2 = !b?this.y4:this.y5;
 						this.render();
-					} else if(this.moving) {
+					} else if(this.moving){
 						this.x1     = e.clientX - tool.left - this.x4;
 						this.x2     = this.x1 + this.x5;
 						if(this.x2  > this.x3)
@@ -420,7 +427,7 @@
 						if(this.y1  < 0)
 							this.y1 = 0, this.y2 = this.y5;
 						this.render();
-					} else if(this.resize) {
+					} else if(this.resize){
 						this.x6     = e.clientX - tool.left + ((this.hw / 2) - this.x4);
 						this.y6     = e.clientY - tool.top  + ((this.hw / 2) - this.y4);
 						this.elem.style.cursor = this.cdn.style.cursor = this.cde.style.cursor = this.cds.style.cursor = this.cdw.style.cursor = (this.rsz_nw || this.rsz_se)
@@ -431,13 +438,13 @@
 						this.y1 = Math.min(this.y5,this.y6);
 						this.y2 = Math.max(this.y5,this.y6);
 						this.render();
-					} else if(this.linear) {
-						if(this.rsz_ns) {
+					} else if(this.linear){
+						if(this.rsz_ns){
 							this.elem.style.cursor = this.cdn.style.cursor = this.cde.style.cursor = this.cds.style.cursor = this.cdw.style.cursor = 'ns-resize';
 							this.y6     = e.clientY - tool['top']  + ((this.hw / 2) - this.y4);
 							if(this.y6 > this.y5) this.y1 = this.y5, this.y2 = this.y6;
 							if(this.y6 < this.y5) this.y1 = this.y6, this.y2 = this.y5;
-						} else if(this.rsz_ew) {
+						} else if(this.rsz_ew){
 							this.elem.style.cursor = this.cdn.style.cursor = this.cde.style.cursor = this.cds.style.cursor = this.cdw.style.cursor = 'ew-resize';
 							this.x6     = e.clientX - tool['left'] + ((this.hw / 2) - this.x4);
 							if(this.x6 > this.x5) this.x1 = this.x5, this.x2 = this.x6;
@@ -446,14 +453,14 @@
 						this.render();
 					}
 				}
-				this.squareY = function() {
-					if(this.square) {
+				this.squareY = function(){
+					if(this.square){
 						if((this.cutting && ((this.x5  > this.x4 && this.y5 > this.y4) || (this.x5  < this.x4 && this.y5 > this.y4))) || (this.resize && ((this.x6 < this.x5 && this.y6 > this.y5) || (this.x6 > this.x5 && this.y6 > this.y5)))) this.y2 = this.y1 + (this.x2 - this.x1);
 						if((this.cutting && ((this.x5  > this.x4 && this.y5 < this.y4) || (this.x5  < this.x4 && this.y5 < this.y4))) || (this.resize && ((this.x6 < this.x5 && this.y6 < this.y5) || (this.x6 > this.x5 && this.y6 < this.y5)))) this.y1 = this.y2 - (this.x2 - this.x1);
 					}
 				}
-				this.squareX = function() {
-					if(this.square) {
+				this.squareX = function(){
+					if(this.square){
 						if((this.cutting && ((this.x5  > this.x4 && this.y5 > this.y4) || (this.x5  > this.x4 && this.y5 < this.y4))) || (this.resize && ((this.x6  > this.x5 && this.y6 > this.y5) || (this.x6 > this.x5 && this.y6 < this.y5)))) this.x2 = this.x1 + (this.y2 - this.y1);
 						if((this.cutting && ((this.x5  < this.x4 && this.y5 < this.y4) || (this.x5  < this.x4 && this.y5 > this.y4))) || (this.resize && ((this.x6  < this.x5 && this.y6 < this.y5) || (this.x6 < this.x5 && this.y6 > this.y5)))) this.x1 = this.x2 - (this.y2 - this.y1);
 					}
@@ -461,7 +468,7 @@
 				document.addEventListener('mouseup',   this.mouseup.bind(this));
 				document.addEventListener('mousedown', this.mousedown.bind(this));
 				document.addEventListener('mousemove', this.mousemove.bind(this));
-				this.cropTo = function(crop) {
+				this.cropTo = function(crop){
 					if(!(typeof crop == 'object' && typeof crop.left == 'number'&& typeof crop.width == 'number'&& typeof crop.top == 'number'&& typeof crop.height == 'number')) return !1;
 					this.x1 = crop.left;
 					this.x2 = crop.left + crop.width;
@@ -470,13 +477,13 @@
 					this.render();
 				}
 				
-				this.stop = function() {
+				this.stop = function(){
 					document.removeEventListener('mouseup',   this.mouseup);
 					document.removeEventListener('mousedown', this.mousedown);
 					document.removeEventListener('mousemove', this.mousemove);
 				}
 				
-				if(typeof o.preset == 'object' && typeof o.preset.left == 'number' && typeof o.preset.width == 'number' && typeof o.preset.top == 'number' && typeof o.preset.height == 'number') {
+				if(typeof o.preset == 'object' && typeof o.preset.left == 'number' && typeof o.preset.width == 'number' && typeof o.preset.top == 'number' && typeof o.preset.height == 'number'){
 					this.x1 = o.preset.left;
 					this.x2 = o.preset.left + o.preset.width;
 					this.y1 = o.preset.top;
@@ -485,8 +492,8 @@
 					this.render();
 				}
 			}
-			else if(kind == 'frame') {
-				if(typeof o.frame.width    !== 'number' || typeof o.frame.height !== 'number') {console.error("Frame undefined!"); return !1};
+			else if(kind == 'frame'){
+				if(typeof o.frame.width    !== 'number' || typeof o.frame.height !== 'number'){console.error("Frame undefined!"); return !1};
 				this.force_width           = (typeof o.force_width == 'boolean')?o.force_width:!1;
 				this.force_height          = (typeof o.force_height == 'boolean')?o.force_height:!1;
 				this.moving                = !1;
@@ -501,30 +508,30 @@
 				this.bleed                 = (typeof o.bleed == 'boolean')?o.bleed:!1;
 				this.bleed_width           = (typeof o.bleed_width == 'number')?o.bleed_width:0;
 				this.bleed_opacity         = (typeof o.bleed_opacity == 'number')?o.bleed_opacity:0.3;
-				if(this.bleed) {
+				if(this.bleed){
 					var ghost = '<div class="crop-ghost" style="top:-'+this.bleed_width+'px;left:-'+this.bleed_width+'px;width:'+(o.frame.width+(2*this.bleed_width))+'px;height:'+(o.frame.height+(2*this.bleed_width))+'px;'+ ((typeof o.bleed_width == 'number')?'overflow:hidden;':'')+'opacity:'+this.bleed_opacity+';position:absolute;"><img class="crop-ghost-img" src="'+this.img.src+'" style="position:absolute;overflow:hidden;top:'+(this.y1 + this.bleed_width)+'px;left:'+(this.x1 + this.bleed_width)+'px;"/></div><div style="position:absolute;width:'+o.frame.width+'px;height:'+o.frame.height+'px;top:0;left:0;cursor:move;"></div>';
 					this.elem.insertAdjacentHTML('afterbegin', ghost);
 					this.ghost = this.elem.getElementsByClassName('crop-ghost-img')[0];
 				} else {
 					this.elem.style.cursor = 'move';
 				}
-				if(this.force_width) {this.elem.style.backgroundSize = o.frame.width + "px auto"; if(this.bleed) this.ghost.style.width = o.frame.width + "px";}
-				else if(this.force_height) {this.elem.style.backgroundSize = "auto " + o.frame.height + "px"; if(this.bleed) this.ghost.style.height = o.frame.height + "px";}
+				if(this.force_width){this.elem.style.backgroundSize = o.frame.width + "px auto"; if(this.bleed) this.ghost.style.width = o.frame.width + "px";}
+				else if(this.force_height){this.elem.style.backgroundSize = "auto " + o.frame.height + "px"; if(this.bleed) this.ghost.style.height = o.frame.height + "px";}
 				
-				this.getValues             = function() {
+				this.getValues             = function(){
 					var ret = {
 						left: - this.x1,
 						width: this.x2 + this.x1,
 						top: - this.y1,
 						height: this.y2 + this.y1
 					}
-					if(this.force_width) {
+					if(this.force_width){
 						var ratio  = this.img.width / o.frame.width;
 						ret.left  *= ratio;
 						ret.width *= ratio;
 						ret.top   *= ratio;
 						ret.height*= ratio;
-					} else if(this.force_height) {
+					} else if(this.force_height){
 						var ratio  = this.img.height / o.frame.height;
 						ret.left  *= ratio;
 						ret.width *= ratio;
@@ -533,7 +540,7 @@
 					}
 					return ret;
 				}
-				this.sendEvent             = function(kind) {
+				this.sendEvent             = function(kind){
 					var vals               = this.getValues(),
 						generic            = {
 						cropper            : this.int,
@@ -542,28 +549,28 @@
 						top                : vals.top,
 						height             : vals.height
 					}
-					if(kind=='move' || kind=='moving') {
+					if(kind=='move' || kind=='moving'){
 						var event          = new CustomEvent(kind, {
 							detail         : generic
 						});
 						window.dispatchEvent(event);
 					}
 				}
-				this.render                = function() {
+				this.render                = function(){
 					this.elem.style.backgroundPosition  = this.x1 + "px " + this.y1 + "px";
-					if(this.bleed) {
+					if(this.bleed){
 						this.ghost.style.left = this.x1 + this.bleed_width + "px";
 						this.ghost.style.top  = this.y1 + this.bleed_width + "px";
 					}
 				}
-				this.mouseup               = function(e) {
+				this.mouseup               = function(e){
 					if(this.moving)          this.sendEvent("move");
 					this.moving            = !1;
 					if(this.bleed)           this.ghost.parentElement.style.cursor = '';
 				}
-				this.mousedown             = function(e) {
+				this.mousedown             = function(e){
 					var rect               = this.elem.getBoundingClientRect();
-					if(rect && (e.clientX  > rect['left'] && e.clientY > rect['top'] && e.clientX < rect['left'] + rect['width'] && e.clientY < rect['top'] + rect['height'])) {
+					if(rect && (e.clientX  > rect['left'] && e.clientY > rect['top'] && e.clientX < rect['left'] + rect['width'] && e.clientY < rect['top'] + rect['height'])){
 						e.preventDefault();
 						this.x4            = e.clientX - rect['left'] - this.x1;
 						this.y4            = e.clientY - rect['top']  - this.y1;
@@ -574,8 +581,8 @@
 						this.render();
 					}
 				}
-				this.mousemove             = function(e) {
-					if(this.moving) {
+				this.mousemove             = function(e){
+					if(this.moving){
 						this.sendEvent("moving")
 						var tool    = this.elem.getBoundingClientRect();
 						this.x1     = e.clientX - tool['left'] - this.x4;
