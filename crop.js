@@ -1,7 +1,7 @@
 /*
  *	Graphene Image Cropper
  *	Written By Trevor J Hoglund
- *	Jan 01, 2016
+ *	Mar 17, 2016
  */
 
 	function _i(i){return document.getElementById(i);}
@@ -593,6 +593,8 @@
 		["v0.1.0.0021","Jan 01, 2016","Fixed y3 == x3 for non-forced frames"],
 		["v0.1.0.0022","Jan 01, 2016","Added changelog as array"],
 		["v0.1.0.0023","Jan 01, 2016","Refactored"],
-		["v0.1.0.0024","Jan 01, 2016","Fixed ghost styling."]
-		["v0.1.0.0025","Jan 01, 2016","Fixed frame presets."]
+		["v0.1.0.0024","Jan 01, 2016","Fixed ghost styling."],
+		["v0.1.0.0025","Jan 01, 2016","Fixed frame presets."],
+		["v0.1.0.0026","Mar 17, 2016","Fixed changes error."],
+		["x0.1.0.0026","Mar 17, 2016","Changed version scheme to xX.X.X.XXXX."],
 	];
